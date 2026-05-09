@@ -35,7 +35,7 @@ The application processes PDF manuals, converts them into vector embeddings, sto
 # Screenshot
 
 ```md
-![AutoMind AI Screenshot](assets/Screenshot-1.png)
+![AutoMind AI Screenshot](assets/screenshot-1.png)
 ```
 
 ---
