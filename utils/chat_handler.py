@@ -62,7 +62,7 @@ def handle_user_input(model_provider, model, chain):
   )
 
   question = st.chat_input(
-    "💬 Ask a Question from the PDF Files",
+    "💬 Ask Your Question from the Uploaded Files",
     disabled=disable_question_input
   )
 

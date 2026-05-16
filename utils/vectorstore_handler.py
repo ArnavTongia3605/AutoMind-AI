@@ -23,9 +23,7 @@ def get_embeddings(model_provider):
   Raises:
     ValueError: If the given provider is not supported.
   """
-  if model_provider == "groq":
-    return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L12-v2")
-  elif model_provider == "gemini":
+  if model_provider == "gemini":
     return HuggingFaceEmbeddings(
       model_name="sentence-transformers/all-MiniLM-L6-v2"
     )

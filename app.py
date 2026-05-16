@@ -29,8 +29,19 @@ def main():
   - Allows downloading chat history
   """
   st.set_page_config(page_title="AutoMind AI", layout="centered")
+
+  hide_streamlit_style = """
+  <style>
+  #MainMenu {visibility: hidden;}
+  header {visibility: hidden;}
+  footer {visibility: hidden;}
+  </style>
+  """
+
+  st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
   st.title("AutoMind AI")
-  st.caption("Chat with multiple PDFs :books:")
+  st.caption("Chat with Vehicle Manuals")
 
   # Initialize required Streamlit session state variables
   setup_session_state()

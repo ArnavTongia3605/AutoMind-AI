@@ -1,11 +1,10 @@
-from utils.config import GOOGLE_API_KEY, GROQ_API_KEY
+from utils.config import GOOGLE_API_KEY
 
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_groq import ChatGroq
 
 
 def get_llm_chain(model_provider, model, vectorstore):
