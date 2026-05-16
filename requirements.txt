@@ -1,9 +1,10 @@
 gradio
 chromadb
+langchain==0.1.20
 langchain-community
 sentence-transformers
-langchain-groq
 langchain-google-genai
 pypdf
 python-dotenv
 streamlit
+
