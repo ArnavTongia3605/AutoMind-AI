@@ -18,71 +18,93 @@ from utils.llm_handler import get_llm_chain
 
 
 def main():
-  """
-  Main entry point for the RAG PDFBot Streamlit app.
-
-  This function:
-  - Sets up the page configuration
-  - Handles model and file selection in the sidebar
-  - Manages PDF upload and vector store creation
-  - Renders chat interface and handles user questions
-  - Allows downloading chat history
-  """
   st.set_page_config(page_title="AutoMind AI", layout="centered")
 
-  hide_streamlit_style = """
+  st.markdown("""
   <style>
   #MainMenu {visibility: hidden;}
   header {visibility: hidden;}
   footer {visibility: hidden;}
+
+  .block-container {
+    padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 900px;
+  }
+
+  h1 {
+    font-size: 3rem !important;
+    font-weight: 800 !important;
+  }
+
+  @media (max-width: 768px) {
+    .block-container {
+      padding-top: 1.5rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    h1 {
+      font-size: 2.3rem !important;
+    }
+  }
   </style>
-  """
+  """, unsafe_allow_html=True)
 
-  st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+  st.markdown(
+    """
+    <h1 style='text-align: center; margin-bottom: 0.2rem;'>
+        AutoMind AI
+    </h1>
+    """,
+    unsafe_allow_html=True
+  )
 
-  st.title("AutoMind AI")
-  st.caption("Chat with Vehicle Manuals")
+  st.markdown(
+      """
+      <p style='text-align: center; color: gray; font-size: 18px;'>
+          Chat With Your Uploaded Vehicle Manuals Regarding Any Query
+      </p>
+      """,
+      unsafe_allow_html=True
+  )
 
-  # Initialize required Streamlit session state variables
   setup_session_state()
 
-  # Allow user to download the chat history as CSV
+  with st.expander("Configuration", expanded=True):
+    model_provider, model = render_model_selector()
+    sidebar_file_upload(model_provider)
+    sidebar_provider_change_check(model_provider, model)
+
+  with st.expander("Utilities", expanded=False):
+    sidebar_utilities()
+
   if st.session_state.chat_history:
     render_download_chat_history()
 
-  # Sidebar configuration: model selection, file upload, provider recheck
-  with st.sidebar:
-    with st.expander("Configuration", expanded=True):
-      model_provider, model = render_model_selector()
-      sidebar_file_upload(model_provider)
-      sidebar_provider_change_check(model_provider, model)
-
-    # Utility buttons: reset, clear, undo
-    sidebar_utilities()
-
-  # Show message if no files are uploaded yet
   if not st.session_state.get(f"uploaded_files_{st.session_state.uploader_key}", []):
     st.info("Please Upload Vehicle Manuals and Ask Questions About Vehicle Manuals.")
 
-  # Warn if new PDFs are uploaded but not submitted
   if st.session_state.get("unsubmitted_files", False):
     st.warning("New PDFs uploaded. Please submit before chatting.")
 
-  # Show uploaded files summary
   if st.session_state.get("vector_store", None) and st.session_state.get("pdf_files", []):
     render_uploaded_files_expander()
 
-  # Render previous chat messages (Q&A)
   if st.session_state.get("chat_history", []):
     render_chat_history()
 
-  # Show chat input box and process question with selected LLM
   if st.session_state.get("vector_store"):
-    handle_user_input(model_provider, model, get_llm_chain(model_provider, model, st.session_state.get("vector_store")))
+    handle_user_input(
+      model_provider,
+      model,
+      get_llm_chain(model_provider, model, st.session_state.get("vector_store"))
+    )
 
-  # Developer mode: inspect Chroma vectorstore
   if st.session_state.vector_store:
     inspect_vectorstore(st.session_state.vector_store)
+
 
 if __name__ == "__main__":
   main()
