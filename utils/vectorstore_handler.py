@@ -14,15 +14,7 @@ PERSIST_DIR = {
 }
 
 def get_embeddings(model_provider):
-  """
-  Returns the appropriate embedding model based on the selected model provider.
-
-  - For 'groq', returns a HuggingFace MiniLM embedding model.
-  - For 'gemini', returns Google's Generative AI embedding model.
-
-  Raises:
-    ValueError: If the given provider is not supported.
-  """
+  
   if model_provider == "gemini":
     return HuggingFaceEmbeddings(
       model_name="sentence-transformers/all-MiniLM-L6-v2"
@@ -32,22 +24,7 @@ def get_embeddings(model_provider):
 
 
 def get_or_create_vectorstore(uploaded_files, model_provider):
-  """
-  Loads an existing Chroma vectorstore from disk if it exists, or creates a new one from uploaded PDFs.
-
-  This function:
-  - Extracts raw text from uploaded PDFs.
-  - Splits the text into chunks suitable for embedding.
-  - Loads or creates a vectorstore for the given model provider.
-  - Appends to existing vectorstore if already present.
-
-  Args:
-    uploaded_files (list): List of uploaded PDF files.
-    model_provider (str): Lowercase name of the selected model provider ('groq' or 'gemini').
-
-  Returns:
-    Chroma: A Chroma vectorstore containing embedded PDF text chunks.
-  """
+  
   # Extract raw text from the uploaded PDF files
   raw_text = get_pdf_text(uploaded_files)
 

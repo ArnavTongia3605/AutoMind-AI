@@ -80,9 +80,6 @@ def main():
   with st.expander("Utilities", expanded=False):
     sidebar_utilities()
 
-  if st.session_state.chat_history:
-    render_download_chat_history()
-
   if not st.session_state.get(f"uploaded_files_{st.session_state.uploader_key}", []):
     st.info("Please Upload Vehicle Manuals and Ask Questions About Vehicle Manuals.")
 

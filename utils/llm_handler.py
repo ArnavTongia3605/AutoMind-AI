@@ -8,24 +8,6 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 def get_llm_chain(model_provider, model, vectorstore):
-  """
-  Builds and returns a LangChain RAG (Retrieval-Augmented Generation) chain.
-
-  Parameters:
-  - model_provider (str): The provider for the LLM ("groq" or "gemini").
-  - model (str): The specific model name (e.g. "gemini-2.0-flash", "llama-3.1-8b-instant").
-  - vectorstore (VectorStore): A Chroma vectorstore object for document retrieval.
-
-  Returns:
-  - A LangChain retrieval chain object that takes user input, retrieves relevant
-    context from vectorstore, and generates a response using the selected LLM.
-
-  Example flow:
-  - User asks: "What is LangChain?"
-  - The chain retrieves top 3 chunks from PDF using vectorstore.
-  - It inserts those chunks into the prompt as {context}.
-  - The selected LLM (e.g. Gemini or Groq) responds using this context.
-  """
   # Define prompt template with system and user message format
   prompt = ChatPromptTemplate.from_messages([
     ("system", "Answer as detailed as possible using the context below. If unknown, say 'I don't know.'"),

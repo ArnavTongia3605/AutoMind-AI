@@ -1,28 +1,10 @@
-"""
-Chat Section Module
---------------------
-
-This module handles all logic related to chat functionalities, including:
-- Initializing session state
-- Rendering chat history
-- Handling user queries and responses
-- Displaying uploaded PDF files
-- Downloading chat history
-
-All UI components are built with Streamlit widgets.
-"""
-
-import pandas as pd
 import streamlit as st
 
 from datetime import datetime
 
 
 def setup_session_state():
-  """
-  Initialize necessary Streamlit session state variables if they are not already defined.
-  Ensures stable app behavior across reruns.
-  """
+  
   for key, default in {
     "chat_history": [],             # Stores tuples of (question, answer, provider, model, pdfs, timestamp)
     "vector_store": None,           # Stores the vector store instance for PDF embeddings
@@ -35,9 +17,7 @@ def setup_session_state():
       st.session_state[key] = default
 
 def render_chat_history():
-  """
-  Display all previous user and AI messages from chat history.
-  """
+  
   for q, a, *_ in st.session_state.get("chat_history", []):
     with st.chat_message("user"):
       st.markdown(q)
@@ -45,15 +25,7 @@ def render_chat_history():
       st.markdown(a)
 
 def handle_user_input(model_provider, model, chain):
-  """
-  Handles user input from the chat input box. 
-  Invokes the LLM chain using the provided question and displays the result.
-
-  Parameters:
-  - model_provider (str): The selected LLM provider
-  - model (str): The specific model used for answering
-  - chain (RetrievalChain): The LangChain retrieval chain for querying vectorstore
-  """
+  
   # Disable question input if unsubmitted files or no files uploaded
   disable_question_input = (
     st.session_state.get("unsubmitted_files", False) or
@@ -62,7 +34,7 @@ def handle_user_input(model_provider, model, chain):
   )
 
   question = st.chat_input(
-    "💬 Ask Your Question from the Uploaded Files",
+    "Ask Your Question from the Uploaded Files",
     disabled=disable_question_input
   )
 
@@ -82,30 +54,9 @@ def handle_user_input(model_provider, model, chain):
         st.error(f"Error: {str(e)}")
 
 def render_uploaded_files_expander():
-  """
-  Displays the list of successfully uploaded PDF files in an expander.
-  Shown only if files are submitted and not pending.
-  """
+  
   uploaded_files = st.session_state.get(f"uploaded_files_{st.session_state.uploader_key}", [])
   if uploaded_files and not st.session_state.get("unsubmitted_files"):
     with st.expander("📎 Uploaded Files:"):
       for f in uploaded_files:
         st.markdown(f"- {f.name}")
-
-def render_download_chat_history():
-  """
-  Adds a button to download chat history as a CSV file with columns: 
-  Question, Answer, Model, Model Name, PDF File(s), and Timestamp.
-  """
-  df = pd.DataFrame(
-    st.session_state.chat_history,
-    columns=["Question", "Answer", "Model", "Model Name", "PDF File", "Timestamp"]
-  )
-
-  with st.expander("📎 Download Chat History:"):
-    st.sidebar.download_button(
-      "📥 Download Chat History",
-      data=df.to_csv(index=False),
-      file_name="chat_history.csv",
-      mime="text/csv"
-    )
