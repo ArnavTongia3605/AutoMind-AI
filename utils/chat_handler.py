@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 
 from datetime import datetime
@@ -60,3 +61,18 @@ def render_uploaded_files_expander():
     with st.expander("📎 Uploaded Files:"):
       for f in uploaded_files:
         st.markdown(f"- {f.name}")
+
+def render_download_chat_history():
+  
+  df = pd.DataFrame(
+    st.session_state.chat_history,
+    columns=["Question", "Answer", "Model", "Model Name", "PDF File", "Timestamp"]
+  )
+
+  with st.expander("📎 Download Chat History:"):
+    st.sidebar.download_button(
+      "Download Chat History",
+      data=df.to_csv(index=False),
+      file_name="chat_history.csv",
+      mime="text/csv"
+    )
