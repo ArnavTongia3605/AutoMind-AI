@@ -64,7 +64,7 @@ def main():
   st.markdown(
       """
       <p style='text-align: center; color: gray; font-size: 18px;'>
-          Chat With Your Uploaded Vehicle Manuals Regarding Any Query
+          Chat With Your Uploaded Documents Regarding Any Query
       </p>
       """,
       unsafe_allow_html=True
@@ -81,7 +81,7 @@ def main():
     sidebar_utilities()
 
   if not st.session_state.get(f"uploaded_files_{st.session_state.uploader_key}", []):
-    st.info("Please Upload Vehicle Manuals and Ask Questions About Vehicle Manuals.")
+    st.info("Please Upload Documents and Ask Questions about your query.")
 
   if st.session_state.get("unsubmitted_files", False):
     st.warning("New PDFs uploaded. Please submit before chatting.")

@@ -58,7 +58,7 @@ def render_uploaded_files_expander():
   
   uploaded_files = st.session_state.get(f"uploaded_files_{st.session_state.uploader_key}", [])
   if uploaded_files and not st.session_state.get("unsubmitted_files"):
-    with st.expander("📎 Uploaded Files:"):
+    with st.expander("Uploaded Files:"):
       for f in uploaded_files:
         st.markdown(f"- {f.name}")
 

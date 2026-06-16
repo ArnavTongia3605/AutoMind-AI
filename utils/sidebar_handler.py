@@ -29,7 +29,7 @@ def render_model_selector():
 def render_upload_files_button():
   
   uploaded_files = st.file_uploader(
-    "Upload Vehicle Manuals",
+    "Upload Your Documents",
     type=["pdf"],
     accept_multiple_files=True,
     disabled=(not st.session_state.get("model")),
